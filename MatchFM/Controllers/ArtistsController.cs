@@ -19,84 +19,18 @@ namespace MatchFM.Controllers
         // GET: api/Artists
         public IQueryable<Artist> GetArtist()
         {
-            return db.Artist;
+            return db.Artists;
         }
 
         // GET: api/Artists/5
         [ResponseType(typeof(Artist))]
         public IHttpActionResult GetArtist(int id)
         {
-            Artist artist = db.Artist.Find(id);
+            Artist artist = db.Artists.Find(id);
             if (artist == null)
             {
                 return NotFound();
             }
-
-            return Ok(artist);
-        }
-
-        // PUT: api/Artists/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutArtist(int id, Artist artist)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != artist.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(artist).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ArtistExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Artists
-        [ResponseType(typeof(Artist))]
-        public IHttpActionResult PostArtist(Artist artist)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Artist.Add(artist);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = artist.Id }, artist);
-        }
-
-        // DELETE: api/Artists/5
-        [ResponseType(typeof(Artist))]
-        public IHttpActionResult DeleteArtist(int id)
-        {
-            Artist artist = db.Artist.Find(id);
-            if (artist == null)
-            {
-                return NotFound();
-            }
-
-            db.Artist.Remove(artist);
-            db.SaveChanges();
 
             return Ok(artist);
         }
@@ -112,7 +46,7 @@ namespace MatchFM.Controllers
 
         private bool ArtistExists(int id)
         {
-            return db.Artist.Count(e => e.Id == id) > 0;
+            return db.Artists.Count(e => e.Id == id) > 0;
         }
     }
 }

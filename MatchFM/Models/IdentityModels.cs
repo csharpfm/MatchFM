@@ -23,7 +23,7 @@ namespace MatchFM.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Artist> Artist { get; set; }
+        public DbSet<Artist> Artists { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
 
@@ -53,5 +53,9 @@ namespace MatchFM.Models
                 .HasMany(t => t.Tracks)
                 .WithMany(t => t.Tags);
         }
+
+        public System.Data.Entity.DbSet<MatchFM.Models.UserTracks> UserTracks { get; set; }
+
+        public System.Data.Entity.DbSet<MatchFM.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
