@@ -12,6 +12,7 @@ using MatchFM.Models;
 
 namespace MatchFM.Controllers
 {
+    [RoutePrefix("api/Tracks")]
     public class TracksController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,6 +33,18 @@ namespace MatchFM.Controllers
                 return NotFound();
             }
 
+            return Ok(track);
+        }
+
+        [Route("{mbid}")]
+        [ResponseType(typeof(Track))]
+        public IHttpActionResult GetTrackByMbid(string mbid)
+        {
+            Track track = db.Tracks.First(t => t.MbId == mbid);
+            if (track == null)
+            {
+                return NotFound();
+            }
             return Ok(track);
         }
 

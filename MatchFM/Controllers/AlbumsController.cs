@@ -12,6 +12,7 @@ using MatchFM.Models;
 
 namespace MatchFM.Controllers
 {
+    [RoutePrefix("api/Albums")]
     public class AlbumsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,6 +33,18 @@ namespace MatchFM.Controllers
                 return NotFound();
             }
 
+            return Ok(album);
+        }
+
+        [Route("{mbid}")]
+        [ResponseType(typeof(Album))]
+        public IHttpActionResult GetAlbumByMbid(string mbid)
+        {
+            Album album = db.Albums.First(t => t.MbId == mbid);
+            if (album == null)
+            {
+                return NotFound();
+            }
             return Ok(album);
         }
 

@@ -12,6 +12,7 @@ using MatchFM.Models;
 
 namespace MatchFM.Controllers
 {
+    [RoutePrefix("api/Artists")]
     public class ArtistsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,6 +33,18 @@ namespace MatchFM.Controllers
                 return NotFound();
             }
 
+            return Ok(artist);
+        }
+
+        [Route("{mbid}")]
+        [ResponseType(typeof(Artist))]
+        public IHttpActionResult GetArtistByMbId(string mbid)
+        {
+            Artist artist = db.Artists.First(t => t.MbId == mbid);
+            if (artist == null)
+            {
+                return NotFound();
+            }
             return Ok(artist);
         }
 
