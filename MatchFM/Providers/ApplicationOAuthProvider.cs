@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using MatchFM;
+using MatchFM.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using MatchFM.Models;
+
 
 namespace MatchFM.Providers
 {
+    /// <summary>
+    /// Class which provides the OAuth authorization.
+    /// </summary>
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
-        private readonly string _publicClientId;
-
-        public ApplicationOAuthProvider(string publicClientId)
-        {
-            if (publicClientId == null)
-            {
-                throw new ArgumentNullException("publicClientId");
-            }
-
-            _publicClientId = publicClientId;
-        }
-
+        /// <summary>
+        /// Called when a request to the Token endpoint arrives with a "grant_type" of "password". This occurs when the user has provided name and password
+        /// credentials directly into the client application's user interface, and the client application is using those to acquire an "access_token" and
+        /// optional "refresh_token". If the web application supports the
+        /// resource owner credentials grant type it must validate the context.Username and context.Password as appropriate. To issue an
+        /// access token the context.Validated must be called with a new ticket containing the claims about the resource owner which should be associated
+        /// with the access token. The application should take appropriate measures to ensure that the endpoint isn’t abused by malicious callers.
+        /// The default behavior is to reject this grant type.
+        /// See also http://tools.ietf.org/html/rfc6749#section-4.3.2
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
@@ -35,7 +36,7 @@ namespace MatchFM.Providers
 
             if (user == null)
             {
-                context.SetError("invalid_grant", "Le nom d'utilisateur ou le mot de passe est incorrect.");
+                context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
 
@@ -50,6 +51,13 @@ namespace MatchFM.Providers
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 
+        /// <summary>
+        /// Called at the final stage of a successful Token endpoint request. An application may implement this call in order to do any final
+        /// modification of the claims being used to issue access or refresh tokens. This call may also be used in order to add additional
+        /// response parameters to the Token endpoint's json response body.
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
             foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
@@ -60,9 +68,19 @@ namespace MatchFM.Providers
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// Called to validate that the origin of the request is a registered "client_id", and that the correct credentials for that client are
+        /// present on the request. If the web application accepts Basic authentication credentials,
+        /// context.TryGetBasicCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the request header. If the web
+        /// application accepts "client_id" and "client_secret" as form encoded POST parameters,
+        /// context.TryGetFormCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the request body.
+        /// If context.Validated is not called the request will not proceed further.
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            // Les informations d'identification du mot de passe du propriétaire de la ressource ne fournissent pas un ID client.
+            // Resource owner password credentials does not provide a client ID.
             if (context.ClientId == null)
             {
                 context.Validated();
@@ -71,21 +89,11 @@ namespace MatchFM.Providers
             return Task.FromResult<object>(null);
         }
 
-        public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
-        {
-            if (context.ClientId == _publicClientId)
-            {
-                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
-
-                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-                {
-                    context.Validated();
-                }
-            }
-
-            return Task.FromResult<object>(null);
-        }
-
+        /// <summary>
+        /// Creates the properties userName.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>AuthenticationProperties.</returns>
         public static AuthenticationProperties CreateProperties(string userName)
         {
             IDictionary<string, string> data = new Dictionary<string, string>

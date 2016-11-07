@@ -35,6 +35,10 @@ namespace MatchFM.Models
     public class RegisterBindingModel
     {
         [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
@@ -43,11 +47,6 @@ namespace MatchFM.Models
         [DataType(DataType.Password)]
         [Display(Name = "Mot de passe")]
         public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirmer le mot de passe ")]
-        [Compare("Password", ErrorMessage = "Le mot de passe et le mot de passe de confirmation ne correspondent pas.")]
-        public string ConfirmPassword { get; set; }
     }
 
     public class RegisterExternalBindingModel
