@@ -53,6 +53,7 @@ namespace MatchFM
                 TokenEndpointPath = new PathString("/oauth/token"),
                 Provider = new ApplicationOAuthProvider(),
                 AuthorizeEndpointPath = new PathString("/oauth/authorize"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(90),
                 AllowInsecureHttp = true
             };
 

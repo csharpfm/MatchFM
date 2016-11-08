@@ -9,24 +9,26 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MatchFM.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace MatchFM.Controllers
 {
+    [RoutePrefix("api/Artists")]
     public class ArtistsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Artists
-        public IQueryable<Artist> GetArtist()
+        public IHttpActionResult GetArtist()
         {
-            return db.Artist;
+            return Ok(_context.Artists.ToList());
         }
 
         // GET: api/Artists/5
         [ResponseType(typeof(Artist))]
         public IHttpActionResult GetArtist(int id)
         {
-            Artist artist = db.Artist.Find(id);
+            Artist artist = _context.Artists.Find(id);
             if (artist == null)
             {
                 return NotFound();
@@ -35,69 +37,15 @@ namespace MatchFM.Controllers
             return Ok(artist);
         }
 
-        // PUT: api/Artists/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutArtist(int id, Artist artist)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != artist.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(artist).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ArtistExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Artists
+        [Route("mbid/{mbid}")]
         [ResponseType(typeof(Artist))]
-        public IHttpActionResult PostArtist(Artist artist)
+        public IHttpActionResult GetArtistByMbId(string mbid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Artist.Add(artist);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = artist.Id }, artist);
-        }
-
-        // DELETE: api/Artists/5
-        [ResponseType(typeof(Artist))]
-        public IHttpActionResult DeleteArtist(int id)
-        {
-            Artist artist = db.Artist.Find(id);
+            Artist artist = _context.Artists.First(t => t.MbId == mbid);
             if (artist == null)
             {
                 return NotFound();
             }
-
-            db.Artist.Remove(artist);
-            db.SaveChanges();
-
             return Ok(artist);
         }
 
@@ -105,14 +53,9 @@ namespace MatchFM.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool ArtistExists(int id)
-        {
-            return db.Artist.Count(e => e.Id == id) > 0;
         }
     }
 }

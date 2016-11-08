@@ -9,24 +9,26 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MatchFM.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace MatchFM.Controllers
 {
+    [RoutePrefix("api/Tracks")]
     public class TracksController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Tracks
-        public IQueryable<Track> GetTracks()
+        public IHttpActionResult GetTracks()
         {
-            return db.Tracks;
+            return Ok(_context.Tracks.ToList());
         }
 
         // GET: api/Tracks/5
         [ResponseType(typeof(Track))]
         public IHttpActionResult GetTrack(int id)
         {
-            Track track = db.Tracks.Find(id);
+            Track track = _context.Tracks.Find(id);
             if (track == null)
             {
                 return NotFound();
@@ -35,69 +37,15 @@ namespace MatchFM.Controllers
             return Ok(track);
         }
 
-        // PUT: api/Tracks/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutTrack(int id, Track track)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != track.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(track).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TrackExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Tracks
+        [Route("mbid/{mbid}")]
         [ResponseType(typeof(Track))]
-        public IHttpActionResult PostTrack(Track track)
+        public IHttpActionResult GetTrackByMbid(string mbid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Tracks.Add(track);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = track.Id }, track);
-        }
-
-        // DELETE: api/Tracks/5
-        [ResponseType(typeof(Track))]
-        public IHttpActionResult DeleteTrack(int id)
-        {
-            Track track = db.Tracks.Find(id);
+            Track track = _context.Tracks.First(t => t.MbId == mbid);
             if (track == null)
             {
                 return NotFound();
             }
-
-            db.Tracks.Remove(track);
-            db.SaveChanges();
-
             return Ok(track);
         }
 
@@ -105,14 +53,9 @@ namespace MatchFM.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool TrackExists(int id)
-        {
-            return db.Tracks.Count(e => e.Id == id) > 0;
         }
     }
 }
