@@ -9,25 +9,26 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MatchFM.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace MatchFM.Controllers
 {
     [RoutePrefix("api/Artists")]
     public class ArtistsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Artists
-        public IQueryable<Artist> GetArtist()
+        public IHttpActionResult GetArtist()
         {
-            return db.Artists;
+            return Ok(_context.Artists.ToList());
         }
 
         // GET: api/Artists/5
         [ResponseType(typeof(Artist))]
         public IHttpActionResult GetArtist(int id)
         {
-            Artist artist = db.Artists.Find(id);
+            Artist artist = _context.Artists.Find(id);
             if (artist == null)
             {
                 return NotFound();
@@ -36,11 +37,11 @@ namespace MatchFM.Controllers
             return Ok(artist);
         }
 
-        [Route("{mbid}")]
+        [Route("mbid/{mbid}")]
         [ResponseType(typeof(Artist))]
         public IHttpActionResult GetArtistByMbId(string mbid)
         {
-            Artist artist = db.Artists.First(t => t.MbId == mbid);
+            Artist artist = _context.Artists.First(t => t.MbId == mbid);
             if (artist == null)
             {
                 return NotFound();
@@ -52,14 +53,9 @@ namespace MatchFM.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool ArtistExists(int id)
-        {
-            return db.Artists.Count(e => e.Id == id) > 0;
         }
     }
 }

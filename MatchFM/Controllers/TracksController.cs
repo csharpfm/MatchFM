@@ -9,25 +9,26 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MatchFM.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace MatchFM.Controllers
 {
     [RoutePrefix("api/Tracks")]
     public class TracksController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Tracks
-        public IQueryable<Track> GetTracks()
+        public IHttpActionResult GetTracks()
         {
-            return db.Tracks;
+            return Ok(_context.Tracks.ToList());
         }
 
         // GET: api/Tracks/5
         [ResponseType(typeof(Track))]
         public IHttpActionResult GetTrack(int id)
         {
-            Track track = db.Tracks.Find(id);
+            Track track = _context.Tracks.Find(id);
             if (track == null)
             {
                 return NotFound();
@@ -36,11 +37,11 @@ namespace MatchFM.Controllers
             return Ok(track);
         }
 
-        [Route("{mbid}")]
+        [Route("mbid/{mbid}")]
         [ResponseType(typeof(Track))]
         public IHttpActionResult GetTrackByMbid(string mbid)
         {
-            Track track = db.Tracks.First(t => t.MbId == mbid);
+            Track track = _context.Tracks.First(t => t.MbId == mbid);
             if (track == null)
             {
                 return NotFound();
@@ -52,14 +53,9 @@ namespace MatchFM.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool TrackExists(int id)
-        {
-            return db.Tracks.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -7,24 +7,25 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
+    [DataContract]
     public class UserTracks
     {
         [DataMember]
         [Key]
         public int Id { get; set; }
 
-        [DataMember]
         [Required]
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [DataMember]
         [Required]
         public int TrackId { get; set; }
 
         [DataMember]
-        public Track Track { get; set; }
+        public virtual Track Track { get; set; }
 
+        [DataMember]
         [Required]
         public DateTime ListenDate { get; set; }
     }

@@ -8,21 +8,9 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
-    public class Album
+    [DataContract]
+    public class Album : Meta
     {
-        [Key]
-        [DataMember]
-        public int Id { get; set; }
-
-        [Required]
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        [StringLength(36)]
-        [Index(name: "AlbumMbID", IsUnique = true)]
-        public string MbId { get; set; }
-
         [DataMember]
         public string Image { get; set; }
 
@@ -33,11 +21,12 @@ namespace MatchFM.Models
         [DataMember]
         public int ArtistId { get; set; }
 
-        public Artist Artist { get; set; }
-
-        public ICollection<Track> Tracks { get; set; }
+        [DataMember]
+        public virtual Artist Artist { get; set; }
 
         [DataMember]
-        public ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }

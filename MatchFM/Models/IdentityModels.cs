@@ -11,7 +11,6 @@ namespace MatchFM.Models
     // Vous pouvez ajouter des données de profil pour l'utilisateur en ajoutant d'autres propriétés à votre classe ApplicationUser, consultez http://go.microsoft.com/fwlink/?LinkID=317594 pour en savoir davantage.
     public class ApplicationUser : IdentityUser
     {
-        public ICollection<UserTracks> UserTracks { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Notez que authenticationType doit correspondre à l'instance définie dans CookieAuthenticationOptions.AuthenticationType
@@ -26,6 +25,7 @@ namespace MatchFM.Models
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<UserTracks> UserTracks { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -53,9 +53,5 @@ namespace MatchFM.Models
                 .HasMany(t => t.Tracks)
                 .WithMany(t => t.Tags);
         }
-
-        public System.Data.Entity.DbSet<MatchFM.Models.UserTracks> UserTracks { get; set; }
-
-        public System.Data.Entity.DbSet<MatchFM.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

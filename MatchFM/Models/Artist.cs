@@ -8,27 +8,15 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
-    public class Artist
+    [DataContract]
+    public class Artist : Meta
     {
-        [Key]
-        [DataMember]
-        public int Id { get; set; }
-
-        [Required]
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        [StringLength(36)]
-        [Index(name: "ArtistMbID", IsUnique = true)]
-        public string MbId { get; set; }
-
         [DataMember]
         public string Image { get; set; }
 
-        public ICollection<Album> Albums { get; set; }
-
         [DataMember]
-        public ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Album> Albums { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }
