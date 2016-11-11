@@ -11,6 +11,7 @@ using MatchFM.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity.Spatial;
+using MatchFM.DTO;
 
 namespace MatchFM.Controllers
 {
@@ -67,12 +68,19 @@ namespace MatchFM.Controllers
         public async Task<IHttpActionResult> GetUserByUserName(string username)
         {
             ApplicationUser user = await UserManager.FindByNameAsync(username);
-
+            User userToReturn = new User()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Gender = user.Gender,
+                Photo = user.Photo,
+                Username = user.UserName
+            };
             if(user == null)
             {
                 return NotFound();
             }
-            return Ok(user);
+            return Ok(userToReturn);
         }
 
         

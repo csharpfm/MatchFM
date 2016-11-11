@@ -24,7 +24,7 @@ namespace MatchFM.Controllers
         /// <param name="username"></param>
         /// <param name="aFile"></param>
         [HttpPut]
-        [Route("{username}/photo")]
+        [Route("{username}/Photo")]
         public async Task<IHttpActionResult> Upload(string username, System.Web.HttpPostedFileBase aFile)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(username);
