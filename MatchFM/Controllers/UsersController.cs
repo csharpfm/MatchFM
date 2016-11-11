@@ -10,6 +10,8 @@ using MatchFM.Models;
 using MatchFM.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity.Spatial;
+using MatchFM.DTO;
 
 namespace MatchFM.Controllers
 {
@@ -57,6 +59,48 @@ namespace MatchFM.Controllers
             }
 
             return userTrack;
+        }
+
+        // GET /api/Users/toto
+        [HttpGet]
+        [Route("{username}/")]
+        [ResponseType(typeof(UserInfoViewModel))]
+        public async Task<IHttpActionResult> GetUserByUserName(string username)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(username);
+            User userToReturn = new User()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Gender = user.Gender,
+                Photo = user.Photo,
+                Username = user.UserName
+            };
+            if(user == null)
+            {
+                return NotFound();
+            }
+            return Ok(userToReturn);
+        }
+
+        
+        // PUT /api/Users/toto/Location
+        [HttpPut]
+        [Route("{username}/Location")]
+        public async Task<IHttpActionResult> updateLocationById(string username, CoordinatesBindingModel gps)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(username);
+            if(user == null)
+            {
+                return NotFound();
+            }
+            user.Location = DbGeography.PointFromText(string.Format("POINT({0} {1})", gps.longitude, gps.latitude), 4326);
+            var result = UserManager.Update(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok();
         }
     }
 }
