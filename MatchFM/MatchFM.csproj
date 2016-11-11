@@ -311,9 +311,22 @@
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TracksController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Helpers\ConnectionString.cs" />
+    <Compile Include="Migrations\201611101751162_AddGenderToUser.cs" />
+    <Compile Include="Migrations\201611101751162_AddGenderToUser.Designer.cs">
+      <DependentUpon>201611101751162_AddGenderToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611102351358_AddPhotoToUser.cs" />
+    <Compile Include="Migrations\201611102351358_AddPhotoToUser.Designer.cs">
+      <DependentUpon>201611102351358_AddPhotoToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110846140_AddLocationToUser.cs" />
+    <Compile Include="Migrations\201611110846140_AddLocationToUser.Designer.cs">
+      <DependentUpon>201611110846140_AddLocationToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CoordinatesBindingModel.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -369,6 +382,8 @@
     <Compile Include="Repositories\TrackRepository.cs" />
     <Compile Include="Repositories\UserTracksRepository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\ImageService.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -402,7 +417,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\MatchFM - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\MatchFm.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -414,6 +429,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -452,11 +468,20 @@
     <EmbeddedResource Include="Migrations\201611071545560_DataInheritance.resx">
       <DependentUpon>201611071545560_DataInheritance.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611101751162_AddGenderToUser.resx">
+      <DependentUpon>201611101751162_AddGenderToUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611101952078_DropMbIdUniquenessConstraint.resx">
       <DependentUpon>201611101952078_DropMbIdUniquenessConstraint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611102016027_MetaModelsUniqueNames.resx">
       <DependentUpon>201611102016027_MetaModelsUniqueNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611102351358_AddPhotoToUser.resx">
+      <DependentUpon>201611102351358_AddPhotoToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110846140_AddLocationToUser.resx">
+      <DependentUpon>201611110846140_AddLocationToUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611110927042_NullableAlbumReleaseDate.resx">
       <DependentUpon>201611110927042_NullableAlbumReleaseDate.cs</DependentUpon>
