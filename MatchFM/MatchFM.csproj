@@ -144,9 +144,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -333,6 +335,7 @@
     <Compile Include="Models\GenderEnum.cs" />
     <Compile Include="Models\HistorySubmissionBindingModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IdentityModelsMatching.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\Track.cs" />
@@ -429,6 +432,9 @@
     <EmbeddedResource Include="Migrations\201611112005147_InitialMigration.resx">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
