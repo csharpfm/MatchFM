@@ -10,9 +10,9 @@ namespace MatchFM.Models
     public class CoordinatesBindingModel
     {
         [DataMember]
-        public int latitude { get; set; }
+        public double latitude { get; set; }
 
         [DataMember]
-        public int longitude { get; set; }
+        public double longitude { get; set; }
     }
 }
