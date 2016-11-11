@@ -315,17 +315,9 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Helpers\ConnectionString.cs" />
-    <Compile Include="Migrations\201611101751162_AddGenderToUser.cs" />
-    <Compile Include="Migrations\201611101751162_AddGenderToUser.Designer.cs">
-      <DependentUpon>201611101751162_AddGenderToUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611102351358_AddPhotoToUser.cs" />
-    <Compile Include="Migrations\201611102351358_AddPhotoToUser.Designer.cs">
-      <DependentUpon>201611102351358_AddPhotoToUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611110846140_AddLocationToUser.cs" />
-    <Compile Include="Migrations\201611110846140_AddLocationToUser.Designer.cs">
-      <DependentUpon>201611110846140_AddLocationToUser.cs</DependentUpon>
+    <Compile Include="Migrations\201611112005147_InitialMigration.cs" />
+    <Compile Include="Migrations\201611112005147_InitialMigration.Designer.cs">
+      <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\CoordinatesBindingModel.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -333,34 +325,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Jobs\LastFMImportJob.cs" />
-    <Compile Include="Migrations\201611070809213_InitialMigration.cs" />
-    <Compile Include="Migrations\201611070809213_InitialMigration.Designer.cs">
-      <DependentUpon>201611070809213_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611070930107_MusicModels.cs" />
-    <Compile Include="Migrations\201611070930107_MusicModels.Designer.cs">
-      <DependentUpon>201611070930107_MusicModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611071545560_DataInheritance.cs" />
-    <Compile Include="Migrations\201611071545560_DataInheritance.Designer.cs">
-      <DependentUpon>201611071545560_DataInheritance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611101952078_DropMbIdUniquenessConstraint.cs" />
-    <Compile Include="Migrations\201611101952078_DropMbIdUniquenessConstraint.Designer.cs">
-      <DependentUpon>201611101952078_DropMbIdUniquenessConstraint.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611102016027_MetaModelsUniqueNames.cs" />
-    <Compile Include="Migrations\201611102016027_MetaModelsUniqueNames.Designer.cs">
-      <DependentUpon>201611102016027_MetaModelsUniqueNames.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611110927042_NullableAlbumReleaseDate.cs" />
-    <Compile Include="Migrations\201611110927042_NullableAlbumReleaseDate.Designer.cs">
-      <DependentUpon>201611110927042_NullableAlbumReleaseDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611110954512_ExtendMetaNameMaxLength.cs" />
-    <Compile Include="Migrations\201611110954512_ExtendMetaNameMaxLength.Designer.cs">
-      <DependentUpon>201611110954512_ExtendMetaNameMaxLength.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -459,39 +423,12 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611070809213_InitialMigration.resx">
-      <DependentUpon>201611070809213_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611070930107_MusicModels.resx">
-      <DependentUpon>201611070930107_MusicModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611071545560_DataInheritance.resx">
-      <DependentUpon>201611071545560_DataInheritance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611101751162_AddGenderToUser.resx">
-      <DependentUpon>201611101751162_AddGenderToUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611101952078_DropMbIdUniquenessConstraint.resx">
-      <DependentUpon>201611101952078_DropMbIdUniquenessConstraint.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611102016027_MetaModelsUniqueNames.resx">
-      <DependentUpon>201611102016027_MetaModelsUniqueNames.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611102351358_AddPhotoToUser.resx">
-      <DependentUpon>201611102351358_AddPhotoToUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611110846140_AddLocationToUser.resx">
-      <DependentUpon>201611110846140_AddLocationToUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611110927042_NullableAlbumReleaseDate.resx">
-      <DependentUpon>201611110927042_NullableAlbumReleaseDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611110954512_ExtendMetaNameMaxLength.resx">
-      <DependentUpon>201611110954512_ExtendMetaNameMaxLength.cs</DependentUpon>
-    </EmbeddedResource>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <EmbeddedResource Include="Migrations\201611112005147_InitialMigration.resx">
+      <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
