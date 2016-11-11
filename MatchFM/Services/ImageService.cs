@@ -23,7 +23,7 @@ namespace MatchFM.Services
             {
                 CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
                 CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("sampleimage");
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("userimage");
 
                 if (await cloudBlobContainer.CreateIfNotExistsAsync())
                 {

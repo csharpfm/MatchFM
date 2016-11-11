@@ -7,7 +7,7 @@ using System.Web;
 namespace MatchFM.Models
 {
     [DataContract]
-    public class DbGeographyGPS
+    public class CoordinatesBindingModel
     {
         [DataMember]
         public int latitude { get; set; }
