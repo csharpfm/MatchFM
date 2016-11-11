@@ -16,6 +16,7 @@ namespace MatchFM.Models
 
         [Required]
         [DataMember]
+        [Index("IX_Name", 2, IsUnique = true)]
         public int AlbumId { get; set; }
 
         [DataMember]

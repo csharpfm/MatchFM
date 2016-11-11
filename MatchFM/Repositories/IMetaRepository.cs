@@ -10,9 +10,7 @@ namespace MatchFM.Repositories
     interface IMetaRepository
     {
         Meta FetchById(int id);
-        Meta FetchByName(string name);
         Meta FetchByMbId(string mbid);
-        bool ExistsByName(string name);
         bool ExistsByMbId(string mbid);
         Meta FetchOrCreateByMbId(Meta meta);
     }

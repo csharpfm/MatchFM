@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Hangfire;
+using MatchFM.Jobs;
 using MatchFM.Models;
 using MatchFM.Repositories;
 using Microsoft.AspNet.Identity;
@@ -38,7 +40,7 @@ namespace MatchFM.Controllers
         public async Task<UserTracks> AddToHistory(string username, HistorySubmissionBindingModel submission)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            Track track = await _trackRepository.FromBrainzByNames(submission.Artist, submission.Title, submission.Album);
+            Track track = _trackRepository.FetchOrCreateTrack(submission.Artist, submission.Title, submission.Album);
 
             UserTracks userTrack = new UserTracks()
             {
@@ -90,7 +92,7 @@ namespace MatchFM.Controllers
         public async Task<IHttpActionResult> updateLocationById(string username, CoordinatesBindingModel gps)
         {
             ApplicationUser user = await UserManager.FindByNameAsync(username);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
@@ -100,6 +102,16 @@ namespace MatchFM.Controllers
             {
                 return BadRequest(ModelState);
             }
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("{username}/LastFmImport")]
+        public async Task<IHttpActionResult> LastFmImport(string username)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            BackgroundJob.Enqueue<LastFMImportJob>(x => x.ImportUserTracks(User.Identity.GetUserId(), "hugoatease", 1));
+
             return Ok();
         }
     }

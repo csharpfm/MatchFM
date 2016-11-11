@@ -37,6 +37,16 @@ namespace MatchFM.Repositories
             return _context.Artists.Any(t => t.MbId == mbid);
         }
 
+        public Meta FetchOrCreateByName(Meta meta)
+        {
+            if (!ExistsByName(meta.Name))
+            {
+                _context.Artists.Add((Artist)meta);
+                _context.SaveChanges();
+            }
+            return FetchByName(meta.Name);
+        }
+
         public Meta FetchOrCreateByMbId(Meta meta)
         {
             if (!ExistsByMbId(meta.MbId))

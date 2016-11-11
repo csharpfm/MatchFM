@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using MatchFM.Models;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 
 namespace MatchFM.Repositories
@@ -25,9 +26,9 @@ namespace MatchFM.Repositories
             return _context.Tracks.Find(id);
         }
 
-        public Meta FetchByName(string name)
+        public Meta FetchByNameAndAlbum(string name, int albumId)
         {
-            return _context.Tracks.First(t => t.Name == name);
+            return _context.Tracks.First(t => t.Name == name && t.AlbumId == albumId);
         }
 
         public Meta FetchByMbId(string mbid)
@@ -35,14 +36,24 @@ namespace MatchFM.Repositories
             return _context.Tracks.First(t => t.MbId == mbid);
         }
 
-        public bool ExistsByName(string name)
+        public bool ExistsByNameAndAlbum(string name, int albumId)
         {
-            return _context.Tracks.Any(t => t.Name == name);
+            return _context.Tracks.Any(t => t.Name == name && t.AlbumId == albumId);
         }
 
         public bool ExistsByMbId(string mbid)
         {
             return _context.Tracks.Any(t => t.MbId == mbid);
+        }
+
+        public Meta FetchOrCreateByNameAndAlbum(Meta meta)
+        {
+            if (!ExistsByNameAndAlbum(meta.Name, ((Track) meta).AlbumId))
+            {
+                _context.Tracks.Add((Track) meta);
+                _context.SaveChanges();
+            }
+            return FetchByNameAndAlbum(meta.Name, ((Track) meta).AlbumId);
         }
 
         public Meta FetchOrCreateByMbId(Meta meta)
@@ -53,6 +64,40 @@ namespace MatchFM.Repositories
                 _context.SaveChanges();
             }
             return FetchByMbId(meta.MbId);
+        }
+
+        public Track FetchOrCreateTrack(string artistName, string trackName, string albumName = null)
+        {
+            Artist artist = (Artist) _artistRepository.FetchOrCreateByName(new Artist
+            {
+                Name = artistName
+            });
+
+            Album album;
+            if (albumName == null || albumName.IsNullOrWhiteSpace())
+            {
+                album = (Album) _albumRepository.FetchOrCreateByNameAndArtist(new Album
+                {
+                    ArtistId = artist.Id,
+                    Name = "Unknown album"
+                });
+            }
+            else
+            {
+                album = (Album) _albumRepository.FetchOrCreateByNameAndArtist(new Album
+                {
+                    ArtistId = artist.Id,
+                    Name = albumName
+                });
+            }
+
+            Track track = (Track) FetchOrCreateByNameAndAlbum(new Track
+            {
+                AlbumId = album.Id,
+                Name = trackName
+            });
+
+            return track;
         }
 
         public async Task<Track> FromBrainzByNames(string artist, string title, string album = null)

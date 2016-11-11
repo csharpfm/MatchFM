@@ -19,7 +19,7 @@ namespace MatchFM.Controllers
         public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Artists
-        public IHttpActionResult GetArtist()
+        public IHttpActionResult GetArtists()
         {
             return Ok(_context.Artists.ToList());
         }
@@ -34,18 +34,6 @@ namespace MatchFM.Controllers
                 return NotFound();
             }
 
-            return Ok(artist);
-        }
-
-        [Route("mbid/{mbid}")]
-        [ResponseType(typeof(Artist))]
-        public IHttpActionResult GetArtistByMbId(string mbid)
-        {
-            Artist artist = _context.Artists.First(t => t.MbId == mbid);
-            if (artist == null)
-            {
-                return NotFound();
-            }
             return Ok(artist);
         }
 

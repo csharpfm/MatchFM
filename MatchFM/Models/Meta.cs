@@ -17,11 +17,13 @@ namespace MatchFM.Models
 
         [Required]
         [DataMember]
+        [MaxLength(200)]
+        [Index("IX_Name", 1, IsUnique = true)]
         public string Name { get; set; }
 
         [DataMember]
         [StringLength(36)]
-        [Index(IsUnique = true)]
+        [Index]
         public string MbId { get; set; }
     }
 }

@@ -14,11 +14,9 @@ namespace MatchFM
     {
         public void ConfigureHangfire(IAppBuilder app)
         {
-            var sqlStorage = new SqlServerStorage("DefaultConnection");
-            var connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
-            sqlStorage.UseServiceBusQueues(connectionString);
-
-            GlobalConfiguration.Configuration.UseStorage(sqlStorage);
+            GlobalConfiguration.Configuration
+                .UseSqlServerStorage("DefaultConnection")
+                .UseMsmqQueues(@".\private$\matchfm");
             app.UseHangfireDashboard();
             app.UseHangfireServer();
         }

@@ -37,18 +37,6 @@ namespace MatchFM.Controllers
             return Ok(track);
         }
 
-        [Route("mbid/{mbid}")]
-        [ResponseType(typeof(Track))]
-        public IHttpActionResult GetTrackByMbid(string mbid)
-        {
-            Track track = _context.Tracks.First(t => t.MbId == mbid);
-            if (track == null)
-            {
-                return NotFound();
-            }
-            return Ok(track);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

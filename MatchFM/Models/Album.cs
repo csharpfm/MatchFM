@@ -15,10 +15,11 @@ namespace MatchFM.Models
         public string Image { get; set; }
 
         [DataMember]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         [Required]
         [DataMember]
+        [Index("IX_Name", 2, IsUnique = true)]
         public int ArtistId { get; set; }
 
         [DataMember]

@@ -37,18 +37,6 @@ namespace MatchFM.Controllers
             return Ok(album);
         }
 
-        [Route("mbid/{mbid}")]
-        [ResponseType(typeof(Album))]
-        public IHttpActionResult GetAlbumByMbid(string mbid)
-        {
-            Album album = _context.Albums.First(t => t.MbId == mbid);
-            if (album == null)
-            {
-                return NotFound();
-            }
-            return Ok(album);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
