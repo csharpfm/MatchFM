@@ -10,6 +10,7 @@ using MatchFM.Models;
 using MatchFM.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity.Spatial;
 
 namespace MatchFM.Controllers
 {
@@ -72,6 +73,26 @@ namespace MatchFM.Controllers
                 return NotFound();
             }
             return Ok(user);
-        } 
+        }
+
+        
+        // PUT /api/Users/toto/Location
+        [HttpPut]
+        [Route("{username}/Location")]
+        public async Task<IHttpActionResult> updateLocationById(string username, string gps)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(username);
+            if(user == null)
+            {
+                return NotFound();
+            }
+            user.Location = DbGeography.FromText(gps);
+            var result = UserManager.Update(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok();
+        }
     }
 }

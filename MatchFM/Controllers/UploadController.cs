@@ -1,5 +1,6 @@
 ﻿using MatchFM.Models;
 using MatchFM.Services;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace MatchFM.Controllers
     [RoutePrefix("api/Users")]
     public class UploadController : ApiController
     {
-        private ApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager => Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
         ImageService imageService = new ImageService();
 
         /// <summary>

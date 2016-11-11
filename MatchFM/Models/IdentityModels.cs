@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity.Spatial;
 
 namespace MatchFM.Models
 {
@@ -14,6 +15,8 @@ namespace MatchFM.Models
 
         public GenderEnum Gender { get; set; }
         public string Photo { get; set; }
+
+        public DbGeography Location { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
