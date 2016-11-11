@@ -79,14 +79,14 @@ namespace MatchFM.Controllers
         // PUT /api/Users/toto/Location
         [HttpPut]
         [Route("{username}/Location")]
-        public async Task<IHttpActionResult> updateLocationById(string username, string gps)
+        public async Task<IHttpActionResult> updateLocationById(string username, DbGeographyGPS gps)
         {
             ApplicationUser user = await UserManager.FindByNameAsync(username);
             if(user == null)
             {
                 return NotFound();
             }
-            user.Location = DbGeography.FromText(gps);
+            user.Location = DbGeography.PointFromText(string.Format("POINT({0} {1})", gps.longitude, gps.latitude), 4326);
             var result = UserManager.Update(user);
             if (!result.Succeeded)
             {
