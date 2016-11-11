@@ -58,5 +58,20 @@ namespace MatchFM.Controllers
 
             return userTrack;
         }
+
+        // GET /api/Users/toto
+        [HttpGet]
+        [Route("{username}/")]
+        [ResponseType(typeof(UserInfoViewModel))]
+        public async Task<IHttpActionResult> GetUserByUserName(string username)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(username);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        } 
     }
 }
