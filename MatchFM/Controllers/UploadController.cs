@@ -1,8 +1,14 @@
-﻿using MatchFM.Models;
+﻿using MatchFM.Helper;
+using MatchFM.Models;
+using MatchFM.Providers;
 using MatchFM.Services;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,10 +17,10 @@ using System.Web.Http;
 
 namespace MatchFM.Controllers
 {
-    [Authorize]
     [RoutePrefix("api/Users")]
     public class UploadController : ApiController
     {
+        private const string Container = "userimages";
         private ApplicationUserManager _userManager => Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
         ImageService imageService = new ImageService();
 
@@ -23,27 +29,55 @@ namespace MatchFM.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <param name="aFile"></param>
-        [HttpPut]
+        [HttpPost]
         [Route("{username}/Photo")]
-        public async Task<IHttpActionResult> Upload(string username, System.Web.HttpPostedFileBase aFile)
+        public async Task<IHttpActionResult> Upload(string username)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(username);
-            if(user == null)
+            if (!Request.Content.IsMimeMultipartContent())
             {
-                return NotFound();
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
-            var imageUrl = await imageService.UploadImageAsync(aFile);
-            if(imageUrl == null)
+
+            CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
+            CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient(); ;
+
+            CloudBlobContainer imagesContainer = cloudBlobClient.GetContainerReference(Container);
+            if (await imagesContainer.CreateIfNotExistsAsync())
             {
-                return BadRequest("Upload to azure storage failed");
+                await imagesContainer.SetPermissionsAsync(
+                    new BlobContainerPermissions
+                    {
+                        PublicAccess = BlobContainerPublicAccessType.Blob
+                    });
             }
-            user.Photo = imageUrl;
+            var provider = new AzureStorageMultipartFormDataStreamProvider(imagesContainer);
+
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error has occured. Details: {ex.Message}");
+            }
+
+            // Retrieve the filename of the file you have uploaded
+            var filename = provider.FileData.FirstOrDefault()?.LocalFileName;
+            if (string.IsNullOrEmpty(filename))
+            {
+                return BadRequest("An error has occured while uploading your file. Please try again.");
+            }
+
+            var user = await _userManager.FindByNameAsync(username);
+            user.Photo = imagesContainer.GetBlockBlobReference(filename).Uri.ToString();
             var result  = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
-                return BadRequest(ModelState);
+                BadRequest(ModelState);
             }
-            return Ok();
+
+            return Ok(user.Photo);
+
         }
     }
 }
