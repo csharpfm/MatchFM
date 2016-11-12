@@ -126,6 +126,10 @@
       <HintPath>..\packages\WindowsAzure.ServiceBus.2.7.5\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.11.0.2\lib\net20\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
@@ -144,9 +148,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -315,6 +321,10 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Helpers\ConnectionString.cs" />
+    <Compile Include="Migrations\201611111038193_AddIdentityModelsMatchingToUser.cs" />
+    <Compile Include="Migrations\201611111038193_AddIdentityModelsMatchingToUser.Designer.cs">
+      <DependentUpon>201611111038193_AddIdentityModelsMatchingToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201611112005147_InitialMigration.cs" />
     <Compile Include="Migrations\201611112005147_InitialMigration.Designer.cs">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
@@ -333,6 +343,8 @@
     <Compile Include="Models\GenderEnum.cs" />
     <Compile Include="Models\HistorySubmissionBindingModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IdentityModelsMatching.cs" />
+    <Compile Include="Models\MatchBindingModel.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\Track.cs" />
@@ -394,7 +406,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -418,7 +432,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
@@ -426,9 +442,15 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611111038193_AddIdentityModelsMatchingToUser.resx">
+      <DependentUpon>201611111038193_AddIdentityModelsMatchingToUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611112005147_InitialMigration.resx">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
