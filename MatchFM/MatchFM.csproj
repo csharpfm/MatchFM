@@ -325,9 +325,9 @@
     <Compile Include="Migrations\201611112005147_InitialMigration.Designer.cs">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611120039228_AddIdentityModelsMatchingToUser1.cs" />
-    <Compile Include="Migrations\201611120039228_AddIdentityModelsMatchingToUser1.Designer.cs">
-      <DependentUpon>201611120039228_AddIdentityModelsMatchingToUser1.cs</DependentUpon>
+    <Compile Include="Migrations\201611122043225_MatchRelationShip.cs" />
+    <Compile Include="Migrations\201611122043225_MatchRelationShip.Designer.cs">
+      <DependentUpon>201611122043225_MatchRelationShip.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\CoordinatesBindingModel.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -343,7 +343,7 @@
     <Compile Include="Models\GenderEnum.cs" />
     <Compile Include="Models\HistorySubmissionBindingModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\IdentityModelsMatching.cs" />
+    <Compile Include="Models\Matches.cs" />
     <Compile Include="Models\MatchBindingModel.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\Tag.cs" />
@@ -464,8 +464,8 @@
     <EmbeddedResource Include="Migrations\201611112005147_InitialMigration.resx">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611120039228_AddIdentityModelsMatchingToUser1.resx">
-      <DependentUpon>201611120039228_AddIdentityModelsMatchingToUser1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611122043225_MatchRelationShip.resx">
+      <DependentUpon>201611122043225_MatchRelationShip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

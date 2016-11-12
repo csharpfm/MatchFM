@@ -95,7 +95,19 @@ namespace MatchFM.Controllers
             {
                 return NotFound();
             }
-            return Ok(user.Profils.Where(p => p.Match == true).ToList());
+            var listMatches = _context.Matches.Where(m => m.UserId == user.Id).Where(m => m.Match == true).ToList();
+            List<ApplicationUser> profils = new List<ApplicationUser>();
+            listMatches.ForEach(m => profils.Add(UserManager.FindById(m.ProfilId)));
+            List<User> profilsToReturn = new List<User>();
+            profils.ForEach(p => profilsToReturn.Add(new User()
+            {
+                Email = p.Email,
+                Id = p.Id,
+                Gender = p.Gender,
+                Photo = p.Photo,
+                Username = p.UserName
+            }));
+            return Ok(profilsToReturn);
         }
 
         // PUT /api/Users/toto/Match
@@ -108,24 +120,20 @@ namespace MatchFM.Controllers
             {
                 return NotFound();
             }
-            var userMatch = _context.Users.Find(user.Id);
-            var profil = _context.Users.Find(match.ProfilId);
-            if(userMatch == null || profil == null)
+            var profil = await UserManager.FindByNameAsync(match.ProfilId);
+            if(profil == null)
             {
                 return NotFound();
             }
-            if(userMatch.Profils.Where(p => ((p.ProfilId == match.ProfilId) && (p.Match == match.Match))).Count() != 0)
+            if(_context.Matches.Where(p => ((p.UserId == user.Id) && (p.ProfilId == match.ProfilId) && (p.Match == match.Match))).Count() != 0)
             {
                 return BadRequest("Relation already exist");
             }
-            userMatch.Profils.Add(new IdentityModelsMatching()
+            _context.Matches.Add(new Matches()
             {
-                Match = match.Match,
-                ProfilId = match.ProfilId,
                 Profil = profil,
-                UserId = userMatch.Id,
-                User = userMatch
-
+                User = user,
+                Match = match.Match
             });
             try
             {

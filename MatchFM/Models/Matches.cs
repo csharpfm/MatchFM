@@ -8,7 +8,7 @@ using System.Web;
 namespace MatchFM.Models
 {
     [DataContract]
-    public class IdentityModelsMatching
+    public class Matches
     {
         [DataMember]
         [Key]
