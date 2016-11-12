@@ -103,7 +103,7 @@ namespace MatchFM.Controllers
         [Route("{username}/Match")]
         public async Task<IHttpActionResult> UpdateMatchByUsername(string username, MatchBindingModel match)
         {
-            var user = UserManager.FindByName(username);
+            var user = await UserManager.FindByNameAsync(username);
             if(user == null)
             {
                 return NotFound();
@@ -120,9 +120,22 @@ namespace MatchFM.Controllers
             }
             userMatch.Profils.Add(new IdentityModelsMatching()
             {
-                Match = match.Match
+                Match = match.Match,
+                ProfilId = match.ProfilId,
+                Profil = profil,
+                UserId = userMatch.Id,
+                User = userMatch
 
             });
+            try
+            {
+                _context.SaveChanges();
+            }catch(Exception e)
+            {
+                telemetryClient.TrackException(e);
+                return BadRequest(ModelState);
+            }
+            return Ok();
         }
         
         // PUT /api/Users/toto/Location
