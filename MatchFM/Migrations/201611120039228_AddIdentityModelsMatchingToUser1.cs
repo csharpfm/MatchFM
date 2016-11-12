@@ -3,7 +3,7 @@ namespace MatchFM.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddIdentityModelsMatchingToUser : DbMigration
+    public partial class AddIdentityModelsMatchingToUser1 : DbMigration
     {
         public override void Up()
         {
@@ -21,9 +21,9 @@ namespace MatchFM.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId)
                 .Index(t => t.ProfilId);
-            
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.IdentityModelsMatchings", "UserId", "dbo.AspNetUsers");

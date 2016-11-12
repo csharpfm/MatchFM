@@ -321,13 +321,13 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Helpers\ConnectionString.cs" />
-    <Compile Include="Migrations\201611111038193_AddIdentityModelsMatchingToUser.cs" />
-    <Compile Include="Migrations\201611111038193_AddIdentityModelsMatchingToUser.Designer.cs">
-      <DependentUpon>201611111038193_AddIdentityModelsMatchingToUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201611112005147_InitialMigration.cs" />
     <Compile Include="Migrations\201611112005147_InitialMigration.Designer.cs">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611120039228_AddIdentityModelsMatchingToUser1.cs" />
+    <Compile Include="Migrations\201611120039228_AddIdentityModelsMatchingToUser1.Designer.cs">
+      <DependentUpon>201611120039228_AddIdentityModelsMatchingToUser1.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\CoordinatesBindingModel.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -393,7 +393,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\MatchFm.pubxml" />
+    <None Include="Properties\PublishProfiles\MatchFM - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MatchFM - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -442,11 +443,11 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611111038193_AddIdentityModelsMatchingToUser.resx">
-      <DependentUpon>201611111038193_AddIdentityModelsMatchingToUser.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611112005147_InitialMigration.resx">
       <DependentUpon>201611112005147_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611120039228_AddIdentityModelsMatchingToUser1.resx">
+      <DependentUpon>201611120039228_AddIdentityModelsMatchingToUser1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
