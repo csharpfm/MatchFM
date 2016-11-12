@@ -132,7 +132,6 @@ namespace MatchFM.Controllers
                 _context.SaveChanges();
             }catch(Exception e)
             {
-                telemetryClient.TrackException(e);
                 return BadRequest(ModelState);
             }
             return Ok();
@@ -166,5 +165,9 @@ namespace MatchFM.Controllers
 
             return Ok();
         }
+    }
+
+    internal class TelmetryClient
+    {
     }
 }
