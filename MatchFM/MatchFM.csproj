@@ -359,7 +359,6 @@
     <Compile Include="Repositories\TrackRepository.cs" />
     <Compile Include="Repositories\UserTracksRepository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Services\ImageService.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

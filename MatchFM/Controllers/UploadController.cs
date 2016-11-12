@@ -1,7 +1,6 @@
 ﻿using MatchFM.Helper;
 using MatchFM.Models;
 using MatchFM.Providers;
-using MatchFM.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -22,7 +21,6 @@ namespace MatchFM.Controllers
     {
         private const string Container = "userimages";
         private ApplicationUserManager _userManager => Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        ImageService imageService = new ImageService();
 
         /// <summary>
         /// Action Method to Handle the Upload Functionalty
