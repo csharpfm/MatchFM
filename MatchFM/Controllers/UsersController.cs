@@ -120,7 +120,7 @@ namespace MatchFM.Controllers
             {
                 return NotFound();
             }
-            var profil = await UserManager.FindByNameAsync(match.ProfilId);
+            var profil = await UserManager.FindByIdAsync(match.ProfilId);
             if(profil == null)
             {
                 return NotFound();
