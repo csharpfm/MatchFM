@@ -22,6 +22,7 @@ namespace MatchFM.Controllers
     public class UsersController : ApiController
     {
         public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
+        private ArtistRepository _artistRepository => new ArtistRepository(_context);
         private TrackRepository _trackRepository => new TrackRepository(_context);
         public ApplicationUserManager UserManager => Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
@@ -148,7 +149,38 @@ namespace MatchFM.Controllers
             }
             return Ok();
         }
-        
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("{username}/Recommendations")]
+        public async Task<IHttpActionResult> GetRecommendations(string username)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(username);
+            List<Matches> matches = _context.Matches.Where(t => t.UserId == user.Id).ToList();
+            List<ApplicationUser> users = _context.Users.ToList();
+            List<ApplicationUser> result = users.Where(u => matches.All(m => m.ProfilId != u.Id)).ToList();
+            List<User> profilsToReturn = new List<User>();
+            result.ForEach(p => profilsToReturn.Add(new User()
+            {
+                Email = p.Email,
+                Id = p.Id,
+                Gender = p.Gender,
+                Photo = p.Photo,
+                Username = p.UserName
+            }));
+            return Ok(profilsToReturn);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("{username}/TopArtists")]
+        public async Task<IHttpActionResult> GetTopArtists(string username)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(username);
+            List<Artist> topArtists = _artistRepository.GetTopForUser(user.Id);
+            return Ok(topArtists);
+        }
+                
         // PUT /api/Users/toto/Location
         [HttpPut]
         [Route("{username}/Location")]
@@ -170,10 +202,10 @@ namespace MatchFM.Controllers
 
         [HttpPost]
         [Route("{username}/LastFmImport")]
-        public async Task<IHttpActionResult> LastFmImport(string username)
+        public async Task<IHttpActionResult> LastFmImport(string username, LastFMImportBindingModels lfmModel)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            BackgroundJob.Enqueue<LastFMImportJob>(x => x.ImportUserTracks(User.Identity.GetUserId(), "hugoatease", 1));
+            BackgroundJob.Enqueue<LastFMImportJob>(x => x.ImportUserTracks(User.Identity.GetUserId(), lfmModel.Username, 1));
 
             return Ok();
         }
