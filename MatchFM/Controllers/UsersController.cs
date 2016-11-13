@@ -31,7 +31,7 @@ namespace MatchFM.Controllers
         public async Task<IHttpActionResult> GetUserHistory(string username)
         {
             ApplicationUser user = await UserManager.FindByNameAsync(username);
-            return Ok(_context.UserTracks.Where(t => t.UserId == user.Id).ToList());
+            return Ok(_context.UserTracks.Where(t => t.UserId == user.Id).OrderByDescending(t => t.ListenDate).ToList());
         }
 
         [HttpPost]
