@@ -37,9 +37,13 @@ namespace MatchFM.Controllers
         [HttpPost]
         [Route("{username}/History")]
         [ResponseType(typeof(UserTracks))]
-        public async Task<UserTracks> AddToHistory(string username, HistorySubmissionBindingModel submission)
+        public async Task<IHttpActionResult> AddToHistory(string username, HistorySubmissionBindingModel submission)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if(user == null)
+            {
+                return NotFound();
+            }
             Track track = _trackRepository.FetchOrCreateTrack(submission.Artist, submission.Title, submission.Album);
 
             UserTracks userTrack = new UserTracks()
@@ -57,10 +61,10 @@ namespace MatchFM.Controllers
             }
             catch (Exception e)
             {
-                
+                return BadRequest("Error saving changes");
             }
 
-            return userTrack;
+            return Ok(userTrack);
         }
 
         // GET /api/Users/toto
@@ -173,9 +177,5 @@ namespace MatchFM.Controllers
 
             return Ok();
         }
-    }
-
-    internal class TelmetryClient
-    {
     }
 }
