@@ -14,6 +14,9 @@ using StackExchange.Redis;
 
 namespace MatchFM.Jobs
 {
+    /// <summary>
+    /// Class use to lastFm history
+    /// </summary>
     public class LastFMImportJob
     {
         private readonly ApplicationDbContext _context;
@@ -34,6 +37,12 @@ namespace MatchFM.Jobs
             _trackRepository = new TrackRepository(_context);
         }
 
+        /// <summary>
+        /// Imports the user tracks.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         public async Task ImportUserTracks(string userId, string username)
         {
             Uri trackUri = new Uri(
@@ -51,6 +60,13 @@ namespace MatchFM.Jobs
             }
         }
 
+        /// <summary>
+        /// Imports the user tracks.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="page">The page.</param>
+        /// <returns></returns>
         public async Task ImportUserTracks(string userId, string username, int page)
         {
             ApplicationUser user = _userManager.FindById(userId);

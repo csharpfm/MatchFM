@@ -7,6 +7,9 @@ using MatchFM.Models;
 
 namespace MatchFM.Repositories
 {
+    /// <summary>
+    /// Parent of all repository used
+    /// </summary>
     public class BaseRepository
     {
         protected readonly ApplicationDbContext _context;

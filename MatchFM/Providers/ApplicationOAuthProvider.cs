@@ -14,6 +14,7 @@ namespace MatchFM.Providers
     /// <summary>
     /// Class which provides the OAuth authorization.
     /// </summary>
+    /// <seealso cref="Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerProvider" />
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         /// <summary>

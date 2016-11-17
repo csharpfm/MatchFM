@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Class define Track
+    /// </summary>
+    /// <seealso cref="MatchFM.Models.Meta" />
     [DataContract]
     public class Track : Meta
     {

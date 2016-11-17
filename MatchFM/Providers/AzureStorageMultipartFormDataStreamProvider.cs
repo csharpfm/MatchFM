@@ -9,6 +9,10 @@ using System.Web;
 
 namespace MatchFM.Providers
 {
+    /// <summary>
+    /// Class use to upload user image to azure storage
+    /// </summary>
+    /// <seealso cref="System.Net.Http.MultipartFormDataStreamProvider" />
     public class AzureStorageMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
     {
         private readonly CloudBlobContainer _blobContainer;

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Relation between use and track
+    /// </summary>
     [DataContract]
     public class UserTracks
     {

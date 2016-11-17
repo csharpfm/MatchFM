@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Class define an Artist
+    /// </summary>
+    /// <seealso cref="MatchFM.Models.Meta" />
     [DataContract]
     public class Artist : Meta
     {

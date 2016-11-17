@@ -8,6 +8,9 @@ using System.Web;
 
 namespace MatchFM.DTO
 {
+    /// <summary>
+    /// DTO for AspNetUser
+    /// </summary>
     [DataContract]
     public class User
     {

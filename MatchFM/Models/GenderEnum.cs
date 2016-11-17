@@ -5,6 +5,9 @@ using System.Web;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Enum for user gender
+    /// </summary>
     public enum GenderEnum
     {
         Male = 0,

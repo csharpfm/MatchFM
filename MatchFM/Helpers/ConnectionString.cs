@@ -8,6 +8,9 @@ using Microsoft.WindowsAzure;
 
 namespace MatchFM.Helper
 {
+    /// <summary>
+    /// Configuration class for azure connection
+    /// </summary>
     public static class ConnectionString
     {
         static string account = CloudConfigurationManager.GetSetting("StorageAccountName");

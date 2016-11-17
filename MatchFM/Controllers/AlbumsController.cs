@@ -13,18 +13,31 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace MatchFM.Controllers
 {
+    /// <summary>
+    /// Class define Ablums api
+    /// </summary>
+    /// <seealso cref="System.Web.Http.ApiController" />
     [RoutePrefix("api/Albums")]
     public class AlbumsController : ApiController
     {
         public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Albums
+        /// <summary>
+        /// Gets the albums.
+        /// </summary>
+        /// <returns></returns>
         public IHttpActionResult GetAlbums()
         {
             return Ok(_context.Albums.ToList());
         }
 
         // GET: api/Albums/5
+        /// <summary>
+        /// Gets the album by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [ResponseType(typeof(Album))]
         public IHttpActionResult GetAlbum(int id)
         {

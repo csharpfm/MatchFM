@@ -13,18 +13,31 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace MatchFM.Controllers
 {
+    /// <summary>
+    /// Class define Tracks api
+    /// </summary>
+    /// <seealso cref="System.Web.Http.ApiController" />
     [RoutePrefix("api/Tracks")]
     public class TracksController : ApiController
     {
         public ApplicationDbContext _context => Request.GetOwinContext().Get<ApplicationDbContext>();
 
         // GET: api/Tracks
+        /// <summary>
+        /// Gets the tracks.
+        /// </summary>
+        /// <returns></returns>
         public IHttpActionResult GetTracks()
         {
             return Ok(_context.Tracks.ToList());
         }
 
         // GET: api/Tracks/5
+        /// <summary>
+        /// Gets the track by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [ResponseType(typeof(Track))]
         public IHttpActionResult GetTrack(int id)
         {

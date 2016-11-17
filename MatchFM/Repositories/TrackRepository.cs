@@ -10,6 +10,11 @@ using Newtonsoft.Json.Linq;
 
 namespace MatchFM.Repositories
 {
+    /// <summary>
+    /// Class use to interact with track table
+    /// </summary>
+    /// <seealso cref="MatchFM.Repositories.BaseRepository" />
+    /// <seealso cref="MatchFM.Repositories.IMetaRepository" />
     public class TrackRepository : BaseRepository, IMetaRepository
     {
         private ArtistRepository _artistRepository;
@@ -19,33 +24,65 @@ namespace MatchFM.Repositories
         {
             _artistRepository = new ArtistRepository(context);
             _albumRepository = new AlbumRepository(context);
-        }        
+        }
 
+        /// <summary>
+        /// Fetches the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public Meta FetchById(int id)
         {
             return _context.Tracks.Find(id);
         }
 
+        /// <summary>
+        /// Fetches the by name and album.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="albumId">The album identifier.</param>
+        /// <returns></returns>
         public Meta FetchByNameAndAlbum(string name, int albumId)
         {
             return _context.Tracks.First(t => t.Name == name && t.AlbumId == albumId);
         }
 
+        /// <summary>
+        /// Fetches the by mb identifier.
+        /// </summary>
+        /// <param name="mbid">The mbid.</param>
+        /// <returns></returns>
         public Meta FetchByMbId(string mbid)
         {
             return _context.Tracks.First(t => t.MbId == mbid);
         }
 
+        /// <summary>
+        /// Existses the by name and album.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="albumId">The album identifier.</param>
+        /// <returns></returns>
         public bool ExistsByNameAndAlbum(string name, int albumId)
         {
             return _context.Tracks.Any(t => t.Name == name && t.AlbumId == albumId);
         }
 
+        /// <summary>
+        /// Existses the by mb identifier.
+        /// </summary>
+        /// <param name="mbid">The mbid.</param>
+        /// <returns></returns>
         public bool ExistsByMbId(string mbid)
         {
             return _context.Tracks.Any(t => t.MbId == mbid);
         }
 
+        /// <summary>
+        /// Fetches the or create by name and album.
+        /// </summary>
+        /// <param name="meta">The meta.</param>
+        /// <returns></returns>
         public Meta FetchOrCreateByNameAndAlbum(Meta meta)
         {
             if (!ExistsByNameAndAlbum(meta.Name, ((Track) meta).AlbumId))
@@ -56,6 +93,11 @@ namespace MatchFM.Repositories
             return FetchByNameAndAlbum(meta.Name, ((Track) meta).AlbumId);
         }
 
+        /// <summary>
+        /// Fetches the or create by mb identifier.
+        /// </summary>
+        /// <param name="meta">The meta.</param>
+        /// <returns></returns>
         public Meta FetchOrCreateByMbId(Meta meta)
         {
             if (!ExistsByMbId(meta.MbId))
@@ -66,6 +108,13 @@ namespace MatchFM.Repositories
             return FetchByMbId(meta.MbId);
         }
 
+        /// <summary>
+        /// Fetches the or create track.
+        /// </summary>
+        /// <param name="artistName">Name of the artist.</param>
+        /// <param name="trackName">Name of the track.</param>
+        /// <param name="albumName">Name of the album.</param>
+        /// <returns></returns>
         public Track FetchOrCreateTrack(string artistName, string trackName, string albumName = null)
         {
             Artist artist = (Artist) _artistRepository.FetchOrCreateByName(new Artist
@@ -100,6 +149,13 @@ namespace MatchFM.Repositories
             return track;
         }
 
+        /// <summary>
+        /// Froms the brainz by names.
+        /// </summary>
+        /// <param name="artist">The artist.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="album">The album.</param>
+        /// <returns></returns>
         public async Task<Track> FromBrainzByNames(string artist, string title, string album = null)
         {
             string search = $"artist:\"{artist}\" AND recording:\"{title}\"";

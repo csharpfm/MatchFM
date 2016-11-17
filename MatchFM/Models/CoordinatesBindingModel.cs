@@ -6,6 +6,9 @@ using System.Web;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Class define GPS coordinate
+    /// </summary>
     [DataContract]
     public class CoordinatesBindingModel
     {

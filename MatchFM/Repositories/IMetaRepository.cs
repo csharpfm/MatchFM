@@ -7,6 +7,9 @@ using MatchFM.Models;
 
 namespace MatchFM.Repositories
 {
+    /// <summary>
+    /// Interface define repository
+    /// </summary>
     interface IMetaRepository
     {
         Meta FetchById(int id);

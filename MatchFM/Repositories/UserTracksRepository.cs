@@ -9,6 +9,10 @@ using Newtonsoft.Json.Linq;
 
 namespace MatchFM.Repositories
 {
+    /// <summary>
+    /// Class use to interact with relation between user and track
+    /// </summary>
+    /// <seealso cref="MatchFM.Repositories.BaseRepository" />
     public class UserTracksRepository : BaseRepository
     {
         private ArtistRepository _artistRepository;

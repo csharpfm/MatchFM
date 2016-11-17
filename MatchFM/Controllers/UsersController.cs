@@ -17,6 +17,10 @@ using MatchFM.DTO;
 
 namespace MatchFM.Controllers
 {
+    /// <summary>
+    /// Class define Users api
+    /// </summary>
+    /// <seealso cref="System.Web.Http.ApiController" />
     [Authorize]
     [RoutePrefix("api/Users")]
     public class UsersController : ApiController
@@ -25,6 +29,12 @@ namespace MatchFM.Controllers
         private TrackRepository _trackRepository => new TrackRepository(_context);
         public ApplicationUserManager UserManager => Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
+        // GET api/toto/History
+        /// <summary>
+        /// Gets the user history.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("{username}/History")]
         [ResponseType(typeof(UserTracks))]
@@ -34,6 +44,13 @@ namespace MatchFM.Controllers
             return Ok(_context.UserTracks.Where(t => t.UserId == user.Id).OrderByDescending(t => t.ListenDate).ToList());
         }
 
+        // POST api/toto/History
+        /// <summary>
+        /// Adds to history.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="submission">The submission.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("{username}/History")]
         [ResponseType(typeof(UserTracks))]
@@ -68,6 +85,11 @@ namespace MatchFM.Controllers
         }
 
         // GET /api/Users/toto
+        /// <summary>
+        /// Gets user by user name.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{username}/")]
         [ResponseType(typeof(User))]
@@ -90,6 +112,11 @@ namespace MatchFM.Controllers
         }
 
         // GET /api/Users/toto/Match
+        /// <summary>
+        /// Gets the match by username.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{username}/Match")]
         public async Task<IHttpActionResult> GetMatchByUsername(string username)
@@ -115,6 +142,12 @@ namespace MatchFM.Controllers
         }
 
         // PUT /api/Users/toto/Match
+        /// <summary>
+        /// Updates the match by username.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="match">The match.</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{username}/Match")]
         public async Task<IHttpActionResult> UpdateMatchByUsername(string username, MatchBindingModel match)
@@ -148,8 +181,14 @@ namespace MatchFM.Controllers
             }
             return Ok();
         }
-        
+
         // PUT /api/Users/toto/Location
+        /// <summary>
+        /// Updates the location by identifier.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="gps">The GPS.</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{username}/Location")]
         public async Task<IHttpActionResult> updateLocationById(string username, CoordinatesBindingModel gps)
@@ -168,6 +207,12 @@ namespace MatchFM.Controllers
             return Ok();
         }
 
+        // POST api/toto/LastFmImpor
+        /// <summary>
+        /// Route use to import lastfm history for username
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("{username}/LastFmImport")]
         public async Task<IHttpActionResult> LastFmImport(string username)

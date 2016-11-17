@@ -12,6 +12,10 @@ using Owin;
 
 namespace MatchFM
 {
+    /// <summary>
+    /// Configuration class for authentication, get access_token from request
+    /// </summary>
+    /// <seealso cref="Microsoft.Owin.Security.OAuth.OAuthBearerAuthenticationProvider" />
     public class QueryStringOAuthBearerProvider : OAuthBearerAuthenticationProvider
     {
         public override Task RequestToken(OAuthRequestTokenContext context)
@@ -27,6 +31,9 @@ namespace MatchFM
         }
     }
 
+    /// <summary>
+    /// Add authentication provider on startup
+    /// </summary>
     public partial class Startup
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }

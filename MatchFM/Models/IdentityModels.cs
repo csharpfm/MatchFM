@@ -10,6 +10,10 @@ using System.Data.Entity.Spatial;
 namespace MatchFM.Models
 {
     // Vous pouvez ajouter des données de profil pour l'utilisateur en ajoutant d'autres propriétés à votre classe ApplicationUser, consultez http://go.microsoft.com/fwlink/?LinkID=317594 pour en savoir davantage.
+    /// <summary>
+    /// User model
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNet.Identity.EntityFramework.IdentityUser" />
     public class ApplicationUser : IdentityUser
     {
 

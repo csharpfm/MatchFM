@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Class define Tag
+    /// </summary>
     [DataContract]
     public class Tag
     {

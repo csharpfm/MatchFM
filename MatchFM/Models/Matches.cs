@@ -7,6 +7,9 @@ using System.Web;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Class define matches
+    /// </summary>
     [DataContract]
     public class Matches
     {

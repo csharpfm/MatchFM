@@ -8,6 +8,9 @@ using System.Web;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Abstract class use to return Artist, Album, Tracks
+    /// </summary>
     [DataContract]
     public abstract class Meta
     {

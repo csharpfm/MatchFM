@@ -19,6 +19,10 @@ using MatchFM.Results;
 
 namespace MatchFM.Controllers
 {
+    /// <summary>
+    /// Account controller for authentication api
+    /// </summary>
+    /// <seealso cref="System.Web.Http.ApiController" />
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -48,6 +52,11 @@ namespace MatchFM.Controllers
 
 
         // POST api/Account/ChangePassword
+        /// <summary>
+        /// Changes the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -68,6 +77,11 @@ namespace MatchFM.Controllers
         }
 
         // POST api/Account/Register
+        /// <summary>
+        /// Registers the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)

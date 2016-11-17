@@ -6,6 +6,9 @@ using System.Web;
 
 namespace MatchFM.Models
 {
+    /// <summary>
+    /// Class use to update match with user
+    /// </summary>
     [DataContract]
     public class MatchBindingModel
     {
