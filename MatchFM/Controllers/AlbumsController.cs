@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 namespace MatchFM.Controllers
 {
     /// <summary>
-    /// Class define Ablums api
+    /// Controller class for handling users
     /// </summary>
     /// <seealso cref="System.Web.Http.ApiController" />
     [RoutePrefix("api/Albums")]

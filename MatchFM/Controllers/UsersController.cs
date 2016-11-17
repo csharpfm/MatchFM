@@ -18,7 +18,7 @@ using MatchFM.DTO;
 namespace MatchFM.Controllers
 {
     /// <summary>
-    /// Class define Users api
+    /// Controller class for handling users
     /// </summary>
     /// <seealso cref="System.Web.Http.ApiController" />
     [Authorize]

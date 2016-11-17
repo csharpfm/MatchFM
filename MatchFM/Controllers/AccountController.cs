@@ -20,7 +20,7 @@ using MatchFM.Results;
 namespace MatchFM.Controllers
 {
     /// <summary>
-    /// Account controller for authentication api
+    /// Controller class for handling users account and user authentication
     /// </summary>
     /// <seealso cref="System.Web.Http.ApiController" />
     [Authorize]

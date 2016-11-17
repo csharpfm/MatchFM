@@ -17,7 +17,7 @@ using System.Web.Http;
 namespace MatchFM.Controllers
 {
     /// <summary>
-    /// Class define Upload api, use to upload user profil picture
+    /// Controller class for handling users pictures
     /// </summary>
     /// <seealso cref="System.Web.Http.ApiController" />
     [RoutePrefix("api/Users")]
