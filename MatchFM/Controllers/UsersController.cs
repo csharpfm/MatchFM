@@ -183,6 +183,11 @@ namespace MatchFM.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Gets the recommendations.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [Route("{username}/Recommendations")]
@@ -204,6 +209,11 @@ namespace MatchFM.Controllers
             return Ok(profilsToReturn);
         }
 
+        /// <summary>
+        /// Gets the top artists.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [Route("{username}/TopArtists")]
