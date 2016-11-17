@@ -127,9 +127,17 @@ namespace MatchFM.Controllers
             {
                 return NotFound();
             }
-            var listMatches = _context.Matches.Where(m => m.UserId == user.Id).Where(m => m.Match == true).ToList();
+            List<Matches> listMatches = _context.Matches.Where(m => m.UserId == user.Id).Where(m => m.Match == true).ToList();
+            List<Matches> bidirMatches = new List<Matches>();
+            for(int i = 0; i<listMatches.Count; i++)
+            {
+                if(_context.Matches.Where(m => (m.UserId == listMatches[i].ProfilId) && (m.ProfilId == listMatches[i].UserId) ).Where(m => m.Match == true).First() != null)
+                {
+                    bidirMatches.Add(listMatches[i]);
+                }
+            }
             List<ApplicationUser> profils = new List<ApplicationUser>();
-            listMatches.ForEach(m => profils.Add(UserManager.FindById(m.ProfilId)));
+            bidirMatches.ForEach(m => profils.Add(UserManager.FindById(m.ProfilId)));
             List<User> profilsToReturn = new List<User>();
             profils.ForEach(p => profilsToReturn.Add(new User()
             {
