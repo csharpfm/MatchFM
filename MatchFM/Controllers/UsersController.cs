@@ -139,14 +139,20 @@ namespace MatchFM.Controllers
             List<ApplicationUser> profils = new List<ApplicationUser>();
             bidirMatches.ForEach(m => profils.Add(UserManager.FindById(m.ProfilId)));
             List<User> profilsToReturn = new List<User>();
-            profils.ForEach(p => profilsToReturn.Add(new User()
+            for (int i=0; i<profils.Count; i++)
             {
-                Email = p.Email,
-                Id = p.Id,
-                Gender = p.Gender,
-                Photo = p.Photo,
-                Username = p.UserName
-            }));
+                if(user.Location.Distance(profils[i].Location) < 30.0)
+                {
+                    profilsToReturn.Add(new User()
+                    {
+                        Email = profils[i].Email,
+                        Id = profils[i].Id,
+                        Gender = profils[i].Gender,
+                        Photo = profils[i].Photo,
+                        Username = profils[i].UserName
+                    });
+                }
+            }
             return Ok(profilsToReturn);
         }
 
