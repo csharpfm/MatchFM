@@ -209,7 +209,11 @@ namespace MatchFM.Controllers
             try
             {
                 IQueryable<UserTracks> userHistory = _context.UserTracks.Where(t => t.UserId == user.Id);
-                result = result.OrderByDescending(u => Coefficient(userHistory, _context.UserTracks.Where(t => t.UserId == u.Id))).ToList();
+                List<ApplicationUser> result2 = result.Select(u => new { User = u, Coefficient = Coefficient(userHistory, _context.UserTracks.Where(t => t.UserId == u.Id)) })
+                    .Where(d => d.Coefficient > 0)
+                    .OrderByDescending(d => d.Coefficient).Select(d => d.User).ToList();
+
+                if (result2.Any()) result = result2;
             }
             catch
             {
