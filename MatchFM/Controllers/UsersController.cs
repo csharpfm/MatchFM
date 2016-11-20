@@ -205,6 +205,17 @@ namespace MatchFM.Controllers
             List<Matches> matches = _context.Matches.Where(t => t.UserId == user.Id).ToList();
             List<ApplicationUser> users = _context.Users.ToList();
             List<ApplicationUser> result = users.Where(u => matches.All(m => m.ProfilId != u.Id)).Where(u => u.Location.Distance(u.Location) < 30.0).ToList();
+
+            try
+            {
+                IQueryable<UserTracks> userHistory = _context.UserTracks.Where(t => t.UserId == user.Id);
+                result = result.OrderByDescending(u => Coefficient(userHistory, _context.UserTracks.Where(t => t.UserId == u.Id))).ToList();
+            }
+            catch
+            {
+                //Keep list unordered
+            }
+
             List<User> profilsToReturn = new List<User>();
             result.ForEach(p => profilsToReturn.Add(new User()
             {
@@ -215,6 +226,19 @@ namespace MatchFM.Controllers
                 Username = p.UserName
             }));
             return Ok(profilsToReturn);
+        }
+
+        private int Coefficient(IQueryable<UserTracks> history1, IQueryable<UserTracks> history2)
+        {
+            IQueryable<int> artists1 = history1.Where(h => h.Track != null && h.Track.Album != null && h.Track.Album.Artist != null)
+                .GroupBy(h => h.Track.Album.Artist.Id)
+                .Select(x => x.First().Track.Album.Artist.Id);
+
+            IQueryable<int> artists2 = history2.Where(h => h.Track != null && h.Track.Album != null && h.Track.Album.Artist != null)
+                .GroupBy(h => h.Track.Album.Artist.Id)
+                .Select(x => x.First().Track.Album.Artist.Id);
+
+            return artists1.Count(a => artists2.Contains(a));
         }
 
         /// <summary>
